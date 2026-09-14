@@ -1,4 +1,4 @@
-<article class="project-card">
+<article class="project-card"{% if include.node_ids %} data-node-ids="{{ include.node_ids | strip }}"{% endif %}>
   <p class="entry-meta">
     <span>{{ include.project.type }}</span>
     {%- if include.project.status %}<span class="dot" aria-hidden="true"></span><span class="status"{% if include.project.status contains 'Active' %} data-state="active"{% elsif include.project.status contains 'progress' %} data-state="progress"{% endif %}>{{ include.project.status }}</span>{% endif -%}

@@ -1,0 +1,31 @@
+---
+layout: null
+permalink: /search-index.json
+sitemap: false
+---
+[
+{%- assign first = true -%}
+{%- for post in site.posts -%}
+{%- unless first %},{% endunless %}{%- assign first = false -%}
+{
+"t": {{ post.title | jsonify }},
+"u": {{ post.url | relative_url | jsonify }},
+"d": {{ post.description | default: "" | jsonify }},
+"c": {{ post.category | default: "" | append: "" | jsonify }},
+"g": {{ post.tags | default: empty | jsonify }},
+"p": {{ post.date | date: "%-d %b %Y" | append: "" | jsonify }},
+"b": {{ post.content | strip_html | normalize_whitespace | truncate: 6000, "" | jsonify }}
+}
+{%- endfor -%}
+{%- for project in site.projects -%}
+,{
+"t": {{ project.short_title | default: project.title | jsonify }},
+"u": {{ project.url | relative_url | jsonify }},
+"d": {{ project.description | default: "" | jsonify }},
+"c": {{ project.type | default: "Project" | append: "" | jsonify }},
+"g": {{ project.stack | default: empty | jsonify }},
+"p": {{ project.period | default: "" | append: "" | jsonify }},
+"b": {{ project.content | strip_html | normalize_whitespace | truncate: 6000, "" | jsonify }}
+}
+{%- endfor -%}
+]
