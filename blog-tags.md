@@ -1,28 +1,28 @@
 ---
 layout: default
-title: Writing by tag — Sven Lutz
-description: Browse technical writing by method, technology and domain.
+title: Tags
+description: Writing by Sven Lutz, grouped by method, technology and domain.
 permalink: /blog/tags/
 ---
 
-<section class="page-hero taxonomy-hero">
-  <p class="section-index">Writing / Tags</p>
-  <h1>Methods, tools and domains.</h1>
-  <p class="lede">Specific concepts used across the writing archive.</p>
-  <a class="back-link" href="{{ '/blog/' | relative_url }}">← Writing archive</a>
-</section>
+<h1>Tags</h1>
+<p class="lede">Specific methods, tools and domains used across the writing.</p>
 
-<section class="section tag-index">
-  {% assign sorted_tags = site.tags | sort %}
-  <nav class="tag-cloud" aria-label="Tag index">
-    {% for tag in sorted_tags %}<a href="#{{ tag[0] | slugify }}">{{ tag[0] }} <span>{{ tag[1].size }}</span></a>{% endfor %}
-  </nav>
-  <div class="tag-groups">
-    {% for tag in sorted_tags %}
-      <section id="{{ tag[0] | slugify }}" class="tag-group">
-        <h2>{{ tag[0] }}</h2>
-        {% for post in tag[1] %}<a href="{{ post.url | relative_url }}">{{ post.title }} <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y" }}</time></a>{% endfor %}
-      </section>
+{% assign sorted_tags = site.tags | sort %}
+<ul class="tag-list" aria-label="Tag index">
+  {% for tag in sorted_tags %}<li><a href="#{{ tag[0] | slugify }}">{{ tag[0] }} ({{ tag[1].size }})</a></li>{% endfor %}
+</ul>
+
+{% for tag in sorted_tags %}
+  <h2 id="{{ tag[0] | slugify }}" class="year-heading">{{ tag[0] }}</h2>
+  <ul class="entry-list">
+    {% for post in tag[1] %}
+      <li>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %b %Y" }}</time>
+        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+      </li>
     {% endfor %}
-  </div>
-</section>
+  </ul>
+{% endfor %}
+
+<a class="back-link" href="{{ '/blog/' | relative_url }}">← All writing</a>

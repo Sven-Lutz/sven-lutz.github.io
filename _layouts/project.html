@@ -1,42 +1,39 @@
 ---
 layout: default
 ---
-<article class="project-detail">
-  <header class="project-detail-header">
-    <a class="back-link" href="{{ '/projects/' | relative_url }}">← All projects</a>
-    <div class="project-title-grid">
-      <div>
-        <p class="eyebrow">{{ page.type | default: 'Project' }}</p>
-        <h1>{{ page.title }}</h1>
-        <p class="lede">{{ page.description }}</p>
-      </div>
-      <dl class="project-facts">
-        {% if page.status %}<div><dt>Status</dt><dd>{{ page.status }}</dd></div>{% endif %}
-        {% if page.period %}<div><dt>Period</dt><dd>{{ page.period }}</dd></div>{% endif %}
-        {% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
-        {% if page.stack %}<div><dt>Methods & tools</dt><dd>{{ page.stack | join: " · " }}</dd></div>{% endif %}
-      </dl>
-    </div>
-    <div class="project-actions">
-      {% if page.repository and page.repository_public != false %}<a class="button primary" href="{{ page.repository }}">View repository</a>{% endif %}
-      {% if page.external_url %}<a class="button secondary" href="{{ page.external_url }}">Visit project</a>{% endif %}
-      {% if page.repository_public == false %}<span class="availability">Repository currently private</span>{% endif %}
-    </div>
-  </header>
+<article>
+  <h1>{{ page.title }}</h1>
+  <p class="meta">{{ page.type | default: 'Project' }}{% if page.status %} · {{ page.status }}{% endif %}{% if page.period %} · {{ page.period }}{% endif %}</p>
+  {% if page.description %}<p class="lede">{{ page.description }}</p>{% endif %}
 
-  <div class="project-body prose">{{ content }}</div>
+  <dl class="facts">
+    {% if page.role %}<div><dt>Role</dt><dd>{{ page.role }}</dd></div>{% endif %}
+    {% if page.stack %}<div><dt>Methods & tools</dt><dd>{{ page.stack | join: ", " }}</dd></div>{% endif %}
+    <div>
+      <dt>Code</dt>
+      <dd>
+        {% if page.repository and page.repository_public != false %}<a href="{{ page.repository }}">{{ page.repository | remove: "https://github.com/" }}</a>
+        {% elsif page.repository_public == false %}Repository currently private
+        {% else %}—{% endif %}
+      </dd>
+    </div>
+    {% if page.external_url %}<div><dt>Link</dt><dd><a href="{{ page.external_url }}">{{ page.external_url | remove: "https://" }}</a></dd></div>{% endif %}
+  </dl>
+
+  <div class="prose article-body">{{ content }}</div>
 
   {% assign related_posts = site.posts | where: "project", page.slug %}
   {% if related_posts.size > 0 %}
-    <section class="related-writing" aria-labelledby="related-writing-title">
-      <p class="eyebrow">Related writing</p>
-      <h2 id="related-writing-title">Notes from this project</h2>
+    <h2>Writing about this project</h2>
+    <ul class="entry-list">
       {% for post in related_posts %}
-        <a class="writing-row" href="{{ post.url | relative_url }}">
-          <div><span>{{ post.category }}</span><h3>{{ post.title }}</h3></div>
+        <li>
           <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %Y" }}</time>
-        </a>
+          <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        </li>
       {% endfor %}
-    </section>
+    </ul>
   {% endif %}
+
+  <a class="back-link" href="{{ '/projects/' | relative_url }}">← All projects</a>
 </article>

@@ -30,5 +30,5 @@
     list.appendChild(item);
   });
 
-  if (!headings.length) document.querySelector('.toc-column')?.remove();
+  if (!headings.length) list.closest('.toc')?.remove();
 })();

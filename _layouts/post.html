@@ -1,45 +1,43 @@
 ---
 layout: default
 ---
-<article class="publication">
-  <header class="publication-header">
-    <a class="back-link" href="{{ '/blog/' | relative_url }}">← Writing archive</a>
-    <div class="publication-kicker">
-      <span>{{ page.category | default: 'Essay' }}</span>
-      {% if page.reading_time %}<span>{{ page.reading_time }} min read</span>{% endif %}
-    </div>
-    <h1>{{ page.title }}</h1>
-    {% if page.description %}<p class="lede">{{ page.description }}</p>{% endif %}
-    <dl class="publication-meta">
-      <div><dt>Published</dt><dd><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time></dd></div>
-      {% if page.updated %}<div><dt>Updated</dt><dd><time datetime="{{ page.updated | date_to_xmlschema }}">{{ page.updated | date: "%B %-d, %Y" }}</time></dd></div>{% endif %}
-      {% if page.project %}
-        {% assign related_project = site.projects | where: "slug", page.project | first %}
-        {% if related_project %}<div><dt>Project</dt><dd><a href="{{ related_project.url | relative_url }}">{{ related_project.short_title | default: related_project.title }}</a></dd></div>{% endif %}
-      {% endif %}
-    </dl>
-    {% if page.tags.size > 0 %}
-      <ul class="tag-list" aria-label="Tags">
-        {% for tag in page.tags %}<li><a href="{{ '/blog/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a></li>{% endfor %}
-      </ul>
+<article>
+  <h1>{{ page.title }}</h1>
+  <p class="meta">
+    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %B %Y" }}</time>
+    {%- assign published_day = page.date | date: "%Y-%m-%d" -%}
+    {%- assign updated_day = page.updated | date: "%Y-%m-%d" -%}
+    {% if page.updated and updated_day != published_day %} · updated {{ page.updated | date: "%-d %B %Y" }}{% endif %}
+    {% if page.category %} · <a href="{{ '/blog/categories/' | relative_url }}#{{ page.category | slugify }}">{{ page.category }}</a>{% endif %}
+    {% if page.reading_time %} · {{ page.reading_time }} min read{% endif %}
+    {% if page.project %}
+      {% assign related_project = site.projects | where: "slug", page.project | first %}
+      {% if related_project %} · <a href="{{ related_project.url | relative_url }}">{{ related_project.short_title | default: related_project.title }}</a>{% endif %}
     {% endif %}
-  </header>
+  </p>
+  {% if page.description %}<p class="lede">{{ page.description }}</p>{% endif %}
 
   {% if page.abstract %}
     <aside class="abstract"><strong>Abstract</strong><p>{{ page.abstract }}</p></aside>
   {% endif %}
 
-  <div class="publication-layout{% unless page.toc %} no-toc{% endunless %}">
-    {% if page.toc %}
-      <aside class="toc-column">
-        <nav class="toc" aria-labelledby="toc-title">
-          <strong id="toc-title">On this page</strong>
-          <ol id="generated-toc"></ol>
-        </nav>
-      </aside>
-    {% endif %}
-    <div class="prose article-body">{{ content }}</div>
-  </div>
+  {% if page.toc %}
+    <nav class="toc" aria-labelledby="toc-title">
+      <strong id="toc-title">Contents</strong>
+      <ol id="generated-toc"></ol>
+    </nav>
+  {% endif %}
+
+  <div class="prose article-body">{{ content }}</div>
+
+  {% if page.tags.size > 0 %}
+    <ul class="tag-list">
+      <li class="tag-label">Tagged</li>
+      {% for tag in page.tags %}<li><a href="{{ '/blog/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a></li>{% endfor %}
+    </ul>
+  {% endif %}
 
   {% include series-nav.html %}
+
+  <a class="back-link" href="{{ '/blog/' | relative_url }}">← All writing</a>
 </article>
