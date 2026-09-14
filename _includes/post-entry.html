@@ -1,4 +1,4 @@
-<li class="entry">
+<li class="entry"{% if include.node_ids %} data-node-ids="{{ include.node_ids | strip }}"{% endif %}>
   <p class="entry-meta">
     <time datetime="{{ include.post.date | date_to_xmlschema }}">{{ include.post.date | date: "%-d %b %Y" }}</time>
     {%- if include.post.category %}<span class="dot" aria-hidden="true"></span><span>{{ include.post.category }}</span>{% endif -%}

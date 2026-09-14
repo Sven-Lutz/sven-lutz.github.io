@@ -1,0 +1,53 @@
+{%- comment -%}
+Emits the site's own content as a graph: articles, projects and the topics that
+connect them. Tags come from posts, stack entries from projects; both are topics,
+which is what makes the graph connected rather than a set of stars.
+{%- endcomment -%}
+{%- assign topic_names = "" -%}
+{%- for post in site.posts -%}{%- for tag in post.tags -%}{%- assign topic_names = topic_names | append: tag | append: "||" -%}{%- endfor -%}{%- endfor -%}
+{%- for project in site.projects -%}{%- for tool in project.stack -%}{%- assign topic_names = topic_names | append: tool | append: "||" -%}{%- endfor -%}{%- endfor -%}
+{%- assign topics = topic_names | split: "||" | uniq | sort -%}
+<script type="application/json" id="graph-data">
+{
+"nodes": [
+{%- assign first = true -%}
+{%- for post in site.posts -%}
+{%- unless first %},{% endunless %}{%- assign first = false -%}
+{"id":"a{{ forloop.index }}","type":"article","label":{{ post.title | jsonify }},"short":{{ post.short_title | default: post.title | truncate: 34 | jsonify }},"url":{{ post.url | relative_url | jsonify }},"meta":{{ post.date | date: "%b %Y" | jsonify }}}
+{%- endfor -%}
+{%- for project in site.projects -%}
+{%- unless first %},{% endunless %}{%- assign first = false -%}
+{"id":"p{{ forloop.index }}","type":"project","label":{{ project.short_title | default: project.title | jsonify }},"short":{{ project.short_title | default: project.title | truncate: 34 | jsonify }},"url":{{ project.url | relative_url | jsonify }},"meta":{{ project.status | default: "Project" | jsonify }}}
+{%- endfor -%}
+{%- for topic in topics -%}
+{%- unless topic == "" -%}
+{%- unless first %},{% endunless %}{%- assign first = false -%}
+{"id":"t-{{ topic | slugify }}","type":"topic","label":{{ topic | jsonify }},"short":{{ topic | jsonify }},"url":{{ "/blog/tags/" | append: "#" | append: topic | slugify | relative_url | jsonify }},"meta":"Topic"}
+{%- endunless -%}
+{%- endfor -%}
+],
+"links": [
+{%- assign firstlink = true -%}
+{%- for post in site.posts -%}
+  {%- for tag in post.tags -%}
+    {%- unless firstlink %},{% endunless %}{%- assign firstlink = false -%}
+    {"source":"a{{ forloop.parentloop.index }}","target":"t-{{ tag | slugify }}"}
+  {%- endfor -%}
+  {%- if post.project -%}
+    {%- for project in site.projects -%}
+      {%- if project.slug == post.project -%}
+        {%- unless firstlink %},{% endunless %}{%- assign firstlink = false -%}
+        {"source":"a{{ forloop.parentloop.index }}","target":"p{{ forloop.index }}"}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- for project in site.projects -%}
+  {%- for tool in project.stack -%}
+    {%- unless firstlink %},{% endunless %}{%- assign firstlink = false -%}
+    {"source":"p{{ forloop.parentloop.index }}","target":"t-{{ tool | slugify }}"}
+  {%- endfor -%}
+{%- endfor -%}
+]
+}
+</script>

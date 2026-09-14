@@ -157,7 +157,8 @@ time, .tabular { font-variant-numeric: tabular-nums; }
   margin-inline: auto;
   padding-inline: var(--s-5);
 }
-body.has-sidebar { --shell: var(--shell-wide); }
+body.has-sidebar,
+body.has-graph { --shell: var(--shell-wide); }
 
 main { display: block; }
 
@@ -384,6 +385,187 @@ main { display: block; }
   font-family: var(--mono);
   font-size: .72rem;
 }
+
+
+/* ==========================================================================
+   Content graph
+   ========================================================================== */
+
+.graph-section .section-note {
+  max-width: 34rem;
+  margin-top: calc(var(--s-5) * -1 + var(--s-2));
+  margin-bottom: var(--s-5);
+  color: var(--ink-500);
+  font-size: .9rem;
+}
+
+.graph {
+  position: relative;
+  margin: 0;
+  padding: var(--s-3) 0 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.graph.is-ready { opacity: 1; }
+
+.graph__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.graph__links line {
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+  transition: stroke .15s ease, stroke-width .15s ease;
+}
+.graph__svg.is-focused .graph__links line { stroke: var(--rule); }
+.graph__links line.is-active { stroke: var(--accent); stroke-width: 1.4; }
+
+.graph__hit { fill: transparent; }
+.graph__node { cursor: pointer; }
+.graph__node:focus { outline: none; }
+.graph__node:focus-visible .graph__mark { stroke: var(--accent); stroke-width: 2.5; }
+
+.graph__mark {
+  fill: var(--ink-700);
+  stroke: var(--paper);
+  stroke-width: 1.5;
+  transition: fill .15s ease;
+}
+.graph__node--topic .graph__mark { fill: var(--paper); stroke: var(--ink-400); stroke-width: 1.5; }
+.graph__node--project .graph__mark { fill: var(--paper); stroke: var(--ink-700); stroke-width: 2; }
+
+.graph__label {
+  fill: var(--ink-500);
+  font-family: var(--sans);
+  font-size: 12px;
+  transition: fill .15s ease;
+}
+.graph__node--article .graph__label { fill: var(--ink-900); font-weight: 500; }
+.graph__node--project .graph__label { fill: var(--ink-900); font-weight: 500; }
+.graph__node--topic .graph__label { font-size: 11.5px; letter-spacing: .01em; }
+.graph__label--deferred { opacity: 0; }
+.graph__node:hover .graph__label--deferred,
+.graph__node:focus-visible .graph__label--deferred,
+.graph__node.is-origin .graph__label--deferred {
+  opacity: 1;
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 4px;
+}
+
+.graph__svg.is-focused .graph__node { opacity: .3; }
+.graph__svg.is-focused .graph__node.is-active { opacity: 1; }
+.graph__node.is-active .graph__label { fill: var(--ink-900); }
+.graph__node.is-origin .graph__mark { fill: var(--accent); stroke: var(--paper); }
+.graph__node.is-origin .graph__label { fill: var(--accent); font-weight: 600; }
+.graph__node:hover .graph__label { fill: var(--accent); }
+
+.graph__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-4);
+  padding-bottom: var(--s-3);
+  color: var(--ink-400);
+  font-size: .75rem;
+}
+.graph__key { display: inline-flex; align-items: center; gap: .4rem; }
+.graph__key::before {
+  content: "";
+  width: .5rem;
+  height: .5rem;
+  border: 1.5px solid var(--ink-400);
+  background: var(--paper);
+}
+.graph__key--article::before { border-radius: 50%; background: var(--ink-700); border-color: var(--ink-700); }
+.graph__key--project::before { border-color: var(--ink-700); }
+.graph__key--topic::before { width: .375rem; height: .375rem; border-radius: 50%; }
+
+.graph-chips { display: flex; flex-wrap: wrap; gap: var(--s-2); padding: var(--s-2) 0 var(--s-4); }
+.graph-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .35rem;
+  padding: .3rem .7rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-700);
+  font-family: var(--sans);
+  font-size: .85rem;
+  cursor: pointer;
+}
+.graph-chip__count { color: var(--ink-400); font-family: var(--mono); font-size: .72rem; }
+.graph-chip.is-on { border-color: var(--accent); background: var(--accent-wash); color: var(--accent); }
+.graph-chip.is-on .graph-chip__count { color: var(--accent); }
+.graph.is-compact { padding-top: var(--s-4); }
+.graph.is-compact .graph__legend { display: none; }
+
+.graph-status { margin-top: var(--s-3); color: var(--ink-500); font-size: .85rem; }
+.graph-status:empty { display: none; }
+.graph-clear {
+  margin-top: var(--s-2);
+  padding: .3rem .7rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-700);
+  font-family: var(--sans);
+  font-size: .8rem;
+  cursor: pointer;
+}
+.graph-clear:hover { border-color: var(--accent); color: var(--accent); }
+
+/* The viewBox is sized in real pixels, so label sizes need no breakpoint. */
+
+/* ==========================================================================
+   Search
+   ========================================================================== */
+
+.search { margin-top: var(--s-5); }
+.search__label {
+  display: block;
+  margin-bottom: var(--s-2);
+  color: var(--ink-400);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.search__field { position: relative; display: flex; align-items: center; }
+.search__field input {
+  width: 100%;
+  padding: .6rem 2.5rem .6rem .75rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink-900);
+  font-family: var(--sans);
+  font-size: .95rem;
+}
+.search__field input::placeholder { color: var(--ink-400); }
+.search__field input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.search__hint {
+  position: absolute;
+  right: .6rem;
+  padding: .05rem .4rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  color: var(--ink-400);
+  font-family: var(--mono);
+  font-size: .7rem;
+}
+.search__note { margin-top: var(--s-2); color: var(--ink-400); font-size: .78rem; }
+
+.search-status { margin-top: var(--s-5); color: var(--ink-500); font-size: .85rem; }
+.search-status:empty { display: none; }
+.search-results { margin-top: var(--s-4); }
+.search-results mark { background: var(--accent-wash); color: var(--ink-900); }
+.search-empty { color: var(--ink-500); font-size: .95rem; list-style: none; }
 
 /* ==========================================================================
    Article

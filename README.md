@@ -178,8 +178,5 @@ Open `http://localhost:4000`.
 
 - **Privacy:** no private CV files, addresses, phone numbers or matriculation details in this
   repository. A public CV must be a separately prepared, sanitised document.
-- **Impressum:** a purely personal, non-commercial site is generally exempt under §5 DDG,
-  but that depends on how the site is used — worth checking before adding job-seeking or
-  commercial content.
 - **Scaling up:** when the archive gets long enough to be awkward to browse, add build-time
   pagination first, then a small static search index. Neither changes existing URLs.

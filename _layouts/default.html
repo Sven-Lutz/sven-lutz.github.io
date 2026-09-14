@@ -19,7 +19,7 @@
       <script defer src="{{ '/assets/vendor/katex/contrib/auto-render.min.js' | relative_url }}" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '\\[', right: '\\]', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}], throwOnError: false});"></script>
     {% endif %}
   </head>
-  <body{% if page.toc %} class="has-sidebar"{% endif %}>
+  <body{% if page.toc %} class="has-sidebar"{% elsif page.graph %} class="has-graph"{% endif %}>
     <a class="skip-link" href="#content">Skip to content</a>
 
     <header class="site-header">
@@ -65,5 +65,7 @@
     {% if page.layout == 'post' or page.layout == 'project' %}
       <script defer src="{{ '/assets/js/article.js' | relative_url }}"></script>
     {% endif %}
+    {% if page.graph %}<script defer src="{{ '/assets/js/graph.js' | relative_url }}"></script>{% endif %}
+    {% if page.search %}<script defer src="{{ '/assets/js/search.js' | relative_url }}"></script>{% endif %}
   </body>
 </html>
