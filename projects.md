@@ -1,23 +1,23 @@
 ---
 layout: default
 title: Projects
-description: Applied AI, research software and machine-learning projects by Sven Lutz.
+description: Applied AI, machine learning and research software projects — problem, approach, result and limitations.
 permalink: /projects/
 ---
 
-<section>
-  <h1>Projects</h1>
-  <p class="lede">Work in applied AI, research software and quantitative analysis. Each page describes the problem, the approach, what came out of it and where the limits are.</p>
+<div class="shell">
+
+<header class="page-head">
+  <p class="label">Projects</p>
+  <h1>Systems I have built</h1>
+  <p class="lede">Each page states the problem, the approach, what the result actually showed and where it stops. Private repositories are marked as such rather than linked into a dead end.</p>
+</header>
+
+<section class="section">
+  <div class="project-grid">
+    {% assign ordered_projects = site.projects | sort: "order" %}
+    {% for project in ordered_projects %}{% include project-card.html project=project %}{% endfor %}
+  </div>
 </section>
 
-<ul class="entry-list">
-  {% assign ordered_projects = site.projects | sort: "order" %}
-  {% for project in ordered_projects %}
-    <li>
-      <span class="entry-note">{{ project.type }}{% if project.status %} · {{ project.status }}{% endif %}{% if project.period %} · {{ project.period }}{% endif %}</span>
-      <h3><a href="{{ project.url | relative_url }}">{{ project.short_title | default: project.title }}</a></h3>
-      {% if project.description %}<p>{{ project.description }}</p>{% endif %}
-      {% if project.stack %}<p>{{ project.stack | join: ", " }}</p>{% endif %}
-    </li>
-  {% endfor %}
-</ul>
+</div>
