@@ -1,6 +1,6 @@
 # sven-lutz.github.io
 
-Personal portfolio and technical publication platform for Sven Lutz. It is built with Jekyll, keeps articles in portable Markdown and deploys through GitHub Pages.
+Personal site, writing archive and project notes for Sven Lutz. Built with Jekyll, written in Markdown and deployed through GitHub Pages.
 
 ## Why Jekyll
 

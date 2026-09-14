@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f4f3ef" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#111820" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#fdfdfb" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#16181a" media="(prefers-color-scheme: dark)">
     {% seo %}
     <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
@@ -18,29 +18,22 @@
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header">
-      <a class="wordmark" href="{{ '/' | relative_url }}" aria-label="Sven Lutz, home">
-        <span class="wordmark-mark" aria-hidden="true">SL</span>
-        <span class="wordmark-text"><strong>Sven Lutz</strong><small>AI · Research · Software</small></span>
-      </a>
+      <a class="wordmark" href="{{ '/' | relative_url }}">Sven Lutz</a>
       <nav class="primary-nav" aria-label="Primary navigation">
-        <a{% if page.url contains '/projects/' or page.url == '/projects/' %} aria-current="page"{% endif %} href="{{ '/projects/' | relative_url }}">Projects</a>
-        <a{% if page.url contains '/blog/' %} aria-current="page"{% endif %} href="{{ '/blog/' | relative_url }}">Writing</a>
+        <a{% if page.url contains '/blog' %} aria-current="page"{% endif %} href="{{ '/blog/' | relative_url }}">Writing</a>
+        <a{% if page.url contains '/projects' %} aria-current="page"{% endif %} href="{{ '/projects/' | relative_url }}">Projects</a>
         <a{% if page.url == '/about/' %} aria-current="page"{% endif %} href="{{ '/about/' | relative_url }}">About</a>
       </nav>
     </header>
     <main id="content">{{ content }}</main>
     <footer class="site-footer">
-      <div>
-        <strong>Sven Lutz</strong>
-        <p>Applied AI, research software and product-minded experimentation.</p>
-      </div>
-      <div class="footer-links" aria-label="External links">
+      <p class="footer-links">
+        <a href="mailto:Lutz.sven@outlook.de">Email</a>
         <a href="https://github.com/Sven-Lutz">GitHub</a>
         <a href="https://www.linkedin.com/in/lutzsven/">LinkedIn</a>
-        <a href="mailto:Lutz.sven@outlook.de">Email</a>
         <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
-      </div>
-      <p class="fine-print">© {{ 'now' | date: '%Y' }} Sven Lutz. Built with Jekyll and plain Markdown.</p>
+      </p>
+      <p>© {{ 'now' | date: '%Y' }} Sven Lutz · Built with Jekyll</p>
     </footer>
     {% if page.toc %}<script defer src="{{ '/assets/js/toc.js' | relative_url }}"></script>{% endif %}
   </body>

@@ -1,28 +1,23 @@
 ---
 layout: default
-title: Projects — Sven Lutz
-description: Selected applied AI, research software and machine-learning projects by Sven Lutz.
+title: Projects
+description: Applied AI, research software and machine-learning projects by Sven Lutz.
 permalink: /projects/
 ---
 
-<section class="page-hero projects-hero">
-  <p class="section-index">Projects / Selected work</p>
-  <h1>Research questions, implemented and examined.</h1>
-  <p class="lede">A curated set of projects across applied AI, experimental software and quantitative research. Each page focuses on the problem, the approach, the result and its limits.</p>
+<section>
+  <h1>Projects</h1>
+  <p class="lede">Work in applied AI, research software and quantitative analysis. Each page describes the problem, the approach, what came out of it and where the limits are.</p>
 </section>
 
-<section class="section project-index">
+<ul class="entry-list">
   {% assign ordered_projects = site.projects | sort: "order" %}
   {% for project in ordered_projects %}
-    <a class="project-index-row" href="{{ project.url | relative_url }}">
-      <span class="project-number">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
-      <div class="project-index-main">
-        <span class="project-type">{{ project.type }} · {{ project.status }}</span>
-        <h2>{{ project.short_title | default: project.title }}</h2>
-        <p>{{ project.description }}</p>
-      </div>
-      <div class="project-index-tools">{{ project.stack | join: "<br>" }}</div>
-      <span class="project-arrow" aria-hidden="true">↗</span>
-    </a>
+    <li>
+      <span class="entry-note">{{ project.type }}{% if project.status %} · {{ project.status }}{% endif %}{% if project.period %} · {{ project.period }}{% endif %}</span>
+      <h3><a href="{{ project.url | relative_url }}">{{ project.short_title | default: project.title }}</a></h3>
+      {% if project.description %}<p>{{ project.description }}</p>{% endif %}
+      {% if project.stack %}<p>{{ project.stack | join: ", " }}</p>{% endif %}
+    </li>
   {% endfor %}
-</section>
+</ul>
