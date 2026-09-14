@@ -12,6 +12,7 @@
       <link rel="preload" href="{{ '/assets/fonts/source-serif-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
     {% endif %}
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    {% if page.url == '/' or page.url == '/about/' %}{% include person-schema.html %}{% endif %}
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }} — writing" href="{{ '/feed.xml' | relative_url }}">
     {% if page.math %}
       <link rel="stylesheet" href="{{ '/assets/vendor/katex/katex.min.css' | relative_url }}">
@@ -28,6 +29,9 @@
         <nav class="primary-nav" aria-label="Primary">
           <a{% if page.url contains '/blog' %} aria-current="page"{% endif %} href="{{ '/blog/' | relative_url }}">Writing</a>
           <a{% if page.url contains '/projects' %} aria-current="page"{% endif %} href="{{ '/projects/' | relative_url }}">Projects</a>
+          {%- if site.notes.size > 0 %}
+          <a{% if page.url == '/log/' %} aria-current="page"{% endif %} href="{{ '/log/' | relative_url }}">Log</a>
+          {%- endif %}
           <a{% if page.url == '/about/' %} aria-current="page"{% endif %} href="{{ '/about/' | relative_url }}">About</a>
         </nav>
       </div>
@@ -46,6 +50,7 @@
           <ul>
             <li><a href="{{ '/blog/' | relative_url }}">Writing</a></li>
             <li><a href="{{ '/projects/' | relative_url }}">Projects</a></li>
+            {%- if site.notes.size > 0 %}<li><a href="{{ '/log/' | relative_url }}">Research log</a></li>{% endif %}
             <li><a href="{{ '/about/' | relative_url }}">About</a></li>
             <li><a href="{{ '/feed.xml' | relative_url }}">RSS feed</a></li>
           </ul>

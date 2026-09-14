@@ -1,0 +1,35 @@
+{%- comment -%}
+Experience timeline. Content lives in _data/experience.yml; adding a role is a
+YAML entry, not markup. Entries degrade gracefully when optional fields are absent.
+{%- endcomment -%}
+<ol class="timeline">
+  {% for role in site.data.experience %}
+    <li class="timeline__item{% if role.current %} is-current{% endif %}">
+      <p class="timeline__period">
+        <time>{{ role.period }}</time>
+        {% if role.current %}<span class="timeline__now">Current</span>{% endif %}
+      </p>
+      <div class="timeline__body">
+        <h3 class="timeline__org">
+          {{ role.org }}{% if role.unit %} <span class="timeline__unit">· {{ role.unit }}</span>{% endif %}
+        </h3>
+        <p class="timeline__role">{{ role.role }}</p>
+        {% if role.summary %}<p class="timeline__summary">{{ role.summary }}</p>{% endif %}
+        {% if role.highlights %}
+          <ul class="timeline__highlights">
+            {% for item in role.highlights %}<li>{{ item }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+        {% if role.stack %}
+          <ul class="stack">{% for tool in role.stack %}<li>{{ tool }}</li>{% endfor %}</ul>
+        {% endif %}
+        {% if role.project %}
+          {%- assign linked = site.projects | where: "slug", role.project | first -%}
+          {% if linked %}
+            <p class="timeline__link"><a href="{{ linked.url | relative_url }}">{{ linked.short_title | default: linked.title }} →</a></p>
+          {% endif %}
+        {% endif %}
+      </div>
+    </li>
+  {% endfor %}
+</ol>

@@ -985,6 +985,190 @@ h4:hover > .heading-anchor,
 }
 
 /* ==========================================================================
+   Research log
+   ========================================================================== */
+
+.log { margin: 0; padding: 0; list-style: none; }
+.log__entry {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: var(--s-5);
+  padding: var(--s-5) 0;
+  border-top: 1px solid var(--rule);
+}
+.log__entry:first-child { border-top: 0; padding-top: 0; }
+.log__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: var(--s-2);
+  color: var(--ink-500);
+  font-size: .85rem;
+  font-variant-numeric: tabular-nums;
+}
+.log__tag {
+  padding: .05rem .4rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  color: var(--ink-400);
+  font-size: .72rem;
+}
+.log__body { font-size: 1rem; }
+.log__body h3 {
+  margin: 0 0 var(--s-2);
+  font-family: var(--sans);
+  font-size: 1rem;
+  letter-spacing: -.005em;
+}
+.log__body > :first-child { margin-top: 0; }
+
+@media (max-width: 40rem) {
+  .log__entry { grid-template-columns: 1fr; gap: var(--s-2); }
+}
+
+/* ==========================================================================
+   Diagrams
+   ==========================================================================
+   Two kinds. A step flow is HTML, so it reflows and stays selectable text.
+   Hand-drawn SVG diagrams use .diagram with the classes below; they inherit
+   the design tokens and therefore work in both themes without duplication. */
+
+.diagram { margin: var(--s-6) 0 0; }
+.diagram figcaption {
+  margin-top: var(--s-3);
+  color: var(--ink-500);
+  font-family: var(--sans);
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: flow;
+}
+.flow__step {
+  position: relative;
+  display: flex;
+  flex: 1 1 8.5rem;
+  flex-direction: column;
+  gap: .15rem;
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-family: var(--sans);
+}
+/* Connector lines would also be drawn at the start of a wrapped row; numbering
+   states the order unambiguously and survives any reflow. */
+.flow__step::before {
+  counter-increment: flow;
+  content: counter(flow);
+  color: var(--ink-400);
+  font-family: var(--mono);
+  font-size: .68rem;
+}
+.flow__name { color: var(--ink-900); font-size: .9rem; font-weight: 500; }
+.flow__note { color: var(--ink-500); font-size: .8rem; line-height: 1.4; }
+
+/* Hand-drawn SVG diagrams */
+.diagram__svg { display: block; width: 100%; height: auto; font-family: var(--sans); }
+.diagram__box { fill: var(--paper); stroke: var(--rule-strong); stroke-width: 1; }
+.diagram__box--accent { stroke: var(--accent); }
+.diagram__fill { fill: var(--surface); stroke: var(--rule); }
+.diagram__line { stroke: var(--rule-strong); stroke-width: 1; fill: none; }
+.diagram__line--accent { stroke: var(--accent); }
+.diagram__text { fill: var(--ink-900); font-size: 13px; }
+.diagram__text--muted { fill: var(--ink-500); font-size: 11.5px; }
+.diagram__text--mono { fill: var(--ink-500); font-family: var(--mono); font-size: 11px; }
+.diagram__arrow { fill: var(--rule-strong); }
+
+/* Results */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--s-4);
+  margin: var(--s-6) 0 0;
+  padding: var(--s-5) 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--sans);
+}
+/* Following the facts list, the rule above is already drawn by it. */
+.facts + .metrics { margin-top: 0; border-top: 0; padding-top: var(--s-4); border-bottom: 0; }
+.metric dt { color: var(--ink-500); font-size: .78rem; letter-spacing: .02em; }
+.metric__value {
+  margin: .2rem 0 0;
+  color: var(--ink-900);
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+}
+.metric__note { margin: .15rem 0 0; color: var(--ink-500); font-size: .8rem; }
+
+/* ==========================================================================
+   Experience timeline
+   ========================================================================== */
+
+.timeline { margin: 0; padding: 0; list-style: none; }
+.timeline__item {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  gap: var(--s-5);
+  padding: var(--s-5) 0;
+  border-top: 1px solid var(--rule);
+}
+.timeline__item:first-child { border-top: 0; padding-top: 0; }
+
+.timeline__period {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  align-content: start;
+  gap: var(--s-2);
+  color: var(--ink-500);
+  font-size: .85rem;
+  font-variant-numeric: tabular-nums;
+}
+.timeline__now {
+  padding: .1rem .45rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.timeline__body > * + * { margin-top: var(--s-2); }
+.timeline__org { font-size: 1.05rem; letter-spacing: -.008em; }
+.timeline__unit { color: var(--ink-500); font-weight: 400; }
+.timeline__role { color: var(--ink-700); font-size: .925rem; }
+.timeline__summary { max-width: 34rem; color: var(--ink-500); font-size: .925rem; }
+.timeline__highlights {
+  max-width: 34rem;
+  margin: var(--s-3) 0 0;
+  padding-left: 1.1em;
+  color: var(--ink-500);
+  font-size: .925rem;
+}
+.timeline__highlights li + li { margin-top: var(--s-2); }
+.timeline__link { font-size: .875rem; }
+.timeline__link a { text-decoration: none; }
+.timeline__link a:hover { text-decoration: underline; }
+.timeline__body .stack { margin-top: var(--s-3); }
+
+@media (max-width: 40rem) {
+  .timeline__item { grid-template-columns: 1fr; gap: var(--s-2); }
+}
+
+/* ==========================================================================
    Archive / taxonomy
    ========================================================================== */
 

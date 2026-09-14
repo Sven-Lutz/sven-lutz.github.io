@@ -16,6 +16,7 @@ repository: https://github.com/Sven-Lutz/Klima_GraphRAG
 repository_public: false
 featured: true
 order: 2
+metrics: "Municipalities : 2,056 : Bavaria, in scope | Stages : 7 : crawl to query | Repository : private : research workflow" 
 ---
 
 ## The question
@@ -27,6 +28,11 @@ This project asks how public material can be collected, structured and queried w
 ## System design
 
 The pipeline is designed to cover the official web presence of all 2,056 Bavarian municipalities. It moves from focused crawling and text segmentation to embeddings, entity and relation extraction, a Neo4j knowledge graph, community detection and a query layer.
+
+{% include pipeline.html
+   steps="Crawl : municipal web presences | Segment : text units | Embed : vector store | Extract : entities and relations | Graph : Neo4j | Communities : hierarchical | Query : local and global"
+   label="Indexing and query pipeline"
+   caption="Figure 1. From public municipal material to a queryable graph. SQLite holds the intermediate state at every stage, so any answer can be traced back to the document it came from." %}
 
 The work combines conventional data engineering with language-model components. SQLite provides a traceable intermediate store; graph structures preserve relationships between municipalities, measures, concepts and targets; and evaluation routines make retrieval quality a first-class part of development.
 

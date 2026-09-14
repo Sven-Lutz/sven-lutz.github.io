@@ -1,0 +1,25 @@
+# Professional experience, newest first — CV-level facts only.
+#
+# Required: org, role, period.
+# Optional: unit, current (marks the present role), project (a slug from
+# _projects/, which links the entry to that page), and — only if you want the
+# entry to say more — summary, highlights (list) and stack (list).
+
+- org: Karlsruhe Institute of Technology
+  unit: Institute of Nanotechnology (INT)
+  role: Research software engineering
+  period: 2025 — present
+  current: true
+  project: int
+
+- org: Porsche
+  role: Research and development internship
+  period: 2026
+
+- org: Fraunhofer FIT / FIM
+  role: Student research assistant
+  period: 2022 — 2025
+
+- org: soffico
+  role: Product and innovation management
+  period: Earlier

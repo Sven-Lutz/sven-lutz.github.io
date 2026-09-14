@@ -1,0 +1,24 @@
+{%- comment -%}
+A step flow, the most common diagram in these articles.
+
+  {% include pipeline.html
+     steps="Crawl : public municipal sites | Segment : text units | Extract : entities and relations | Graph : Neo4j | Query : local and global"
+     caption="Figure 1. The indexing pipeline." %}
+
+Steps are separated by "|", and an optional note follows a ":". Rendered as
+HTML rather than SVG so it reflows on narrow screens, inherits the design
+tokens in both themes, and stays selectable and searchable text.
+{%- endcomment -%}
+{%- assign steps = include.steps | split: "|" -%}
+<figure class="diagram diagram--flow">
+  <ol class="flow" {% if include.label %}aria-label="{{ include.label }}"{% endif %}>
+    {%- for step in steps -%}
+      {%- assign parts = step | split: ":" -%}
+      <li class="flow__step">
+        <span class="flow__name">{{ parts[0] | strip }}</span>
+        {%- if parts[1] %}<span class="flow__note">{{ parts[1] | strip }}</span>{% endif -%}
+      </li>
+    {%- endfor -%}
+  </ol>
+  {%- if include.caption %}<figcaption>{{ include.caption }}</figcaption>{% endif -%}
+</figure>

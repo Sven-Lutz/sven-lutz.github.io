@@ -16,7 +16,7 @@ graph: true
   </div>
   <p class="intro-meta">
     <span><strong>KIT</strong> M.Sc. Information Systems</span>
-    <span><strong>Currently</strong> GraphRAG for climate policy</span>
+    <span><strong>Currently</strong> Institute of Nanotechnology, KIT</span>
     <span><strong>Previously</strong> Porsche · Fraunhofer FIT/FIM · ASML</span>
   </p>
 </section>
@@ -72,7 +72,7 @@ graph: true
 
 <section class="section">
   <div class="section-head"><h2>Contact</h2></div>
-  <p class="lede">Open to research collaborations, working-student and thesis positions in applied AI and research engineering.</p>
+  <p class="lede">Questions about the work here, the methods behind it, or anything I have written — email is the reliable channel.</p>
   <p class="inline-links">
     <a href="mailto:Lutz.sven@outlook.de">Lutz.sven@outlook.de</a>
     <a href="https://github.com/Sven-Lutz">GitHub</a>
