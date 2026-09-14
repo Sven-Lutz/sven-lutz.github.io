@@ -1,38 +1,25 @@
-# Professional experience, newest first.
+# Professional experience, newest first — CV-level facts only.
 #
-# Required: org, role, period. Everything else is optional and simply omitted
-# when absent: unit, summary, highlights (list), stack (list), project (a slug
-# from _projects/, which links the entry to that page), current (true marks the
-# present role).
+# Required: org, role, period.
+# Optional: unit, current (marks the present role), project (a slug from
+# _projects/, which links the entry to that page), and — only if you want the
+# entry to say more — summary, highlights (list) and stack (list).
 
 - org: Karlsruhe Institute of Technology
   unit: Institute of Nanotechnology (INT)
   role: Research software engineering
   period: 2025 — present
   current: true
-  summary: >
-    Control and telemetry software for laboratory filtration and Aqua systems —
-    hardware communication, repeatable experiment procedures, and the operator
-    interfaces that researchers actually work with.
-  stack: [Python, PySide6, Hardware I/O, Telemetry]
   project: int
 
 - org: Porsche
   role: Research and development internship
   period: 2026
-  summary: >
-    Research and development work in an industrial engineering environment.
 
 - org: Fraunhofer FIT / FIM
   role: Student research assistant
   period: 2022 — 2025
-  summary: >
-    Three years alongside my studies in applied research: data-driven analysis,
-    machine learning and process automation on industrial and public-sector data.
 
 - org: soffico
   role: Product and innovation management
   period: Earlier
-  summary: >
-    Product and innovation work around integration software — the questions of
-    who needs a capability and what makes it worth building.
