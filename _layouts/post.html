@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<article class="article-shell">
+  <a class="eyebrow back-link" href="{{ '/notes/' | relative_url }}">← All notes</a>
+  <header class="article-header">
+    <p class="eyebrow">{{ page.category | default: 'Note' }}</p>
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}<p class="lede">{{ page.description }}</p>{% endif %}
+    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>
+  </header>
+  <div class="prose">{{ content }}</div>
+</article>

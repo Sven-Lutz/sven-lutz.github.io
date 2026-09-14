@@ -1,0 +1,23 @@
+title: Sven Lutz
+description: Applied AI, research software and entrepreneurship.
+url: "https://sven-lutz.github.io"
+baseurl: ""
+author:
+  name: Sven Lutz
+  url: https://sven-lutz.github.io
+social:
+  name: Sven Lutz
+  links:
+    - https://github.com/Sven-Lutz
+    - https://www.linkedin.com/in/lutzsven/
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+  - jekyll-sitemap
+permalink: /notes/:title/
+markdown: kramdown
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
