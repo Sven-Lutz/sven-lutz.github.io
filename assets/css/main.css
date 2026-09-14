@@ -985,6 +985,63 @@ h4:hover > .heading-anchor,
 }
 
 /* ==========================================================================
+   Experience timeline
+   ========================================================================== */
+
+.timeline { margin: 0; padding: 0; list-style: none; }
+.timeline__item {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  gap: var(--s-5);
+  padding: var(--s-5) 0;
+  border-top: 1px solid var(--rule);
+}
+.timeline__item:first-child { border-top: 0; padding-top: 0; }
+
+.timeline__period {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  align-content: start;
+  gap: var(--s-2);
+  color: var(--ink-500);
+  font-size: .85rem;
+  font-variant-numeric: tabular-nums;
+}
+.timeline__now {
+  padding: .1rem .45rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.timeline__body > * + * { margin-top: var(--s-2); }
+.timeline__org { font-size: 1.05rem; letter-spacing: -.008em; }
+.timeline__unit { color: var(--ink-500); font-weight: 400; }
+.timeline__role { color: var(--ink-700); font-size: .925rem; }
+.timeline__summary { max-width: 34rem; color: var(--ink-500); font-size: .925rem; }
+.timeline__highlights {
+  max-width: 34rem;
+  margin: var(--s-3) 0 0;
+  padding-left: 1.1em;
+  color: var(--ink-500);
+  font-size: .925rem;
+}
+.timeline__highlights li + li { margin-top: var(--s-2); }
+.timeline__link { font-size: .875rem; }
+.timeline__link a { text-decoration: none; }
+.timeline__link a:hover { text-decoration: underline; }
+.timeline__body .stack { margin-top: var(--s-3); }
+
+@media (max-width: 40rem) {
+  .timeline__item { grid-template-columns: 1fr; gap: var(--s-2); }
+}
+
+/* ==========================================================================
    Archive / taxonomy
    ========================================================================== */
 

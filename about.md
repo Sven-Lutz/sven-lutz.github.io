@@ -21,18 +21,11 @@ permalink: /about/
     <p>I am completing an M.Sc. in Information Systems at the Karlsruhe Institute of Technology (KIT), after a B.Sc. in Business Administration at the University of Bayreuth and additional coursework in mathematics. That sequence is deliberate: I wanted the quantitative foundation and the organisational context, not one without the other.</p>
     <p>My work sits between research and engineering. A question gets formalised, implemented, measured, and then — most importantly — examined for the conditions under which the answer stops holding.</p>
 
-    <h2>Experience</h2>
-    <dl class="facts">
-      <div><dt>2026</dt><dd><strong>Porsche</strong> — Research &amp; development internship</dd></div>
-      <div><dt>2025–2026</dt><dd><strong>KIT, in collaboration with ASML</strong> — Research software for experimental systems</dd></div>
-      <div><dt>2022–2025</dt><dd><strong>Fraunhofer FIT / FIM</strong> — Student research assistant</dd></div>
-      <div><dt>Earlier</dt><dd><strong>soffico</strong> — Product and innovation management</dd></div>
-    </dl>
     <p>Across these roles I have worked with retrieval and knowledge graphs, time-series forecasting, computer vision, experimental control software, industrial data and process automation.</p>
 
     <h2>Current work</h2>
-    <p>My main project is a GraphRAG pipeline for municipal climate-policy information: crawling public material from Bavarian municipalities, extracting entities and relations into a knowledge graph, and making both the answers and the evidence behind them inspectable.</p>
-    <p>Alongside it, I develop control and telemetry software for laboratory filtration systems, and I experiment with building and distributing small software products.</p>
+    <p>I work at the Institute of Nanotechnology (INT) at KIT, on control and telemetry software for laboratory filtration systems: the layer between physical equipment, experiment procedures and the people running them.</p>
+    <p>Alongside it I build a GraphRAG pipeline for municipal climate-policy information — crawling public material from Bavarian municipalities, extracting entities and relations into a knowledge graph, and keeping both the answers and the evidence behind them inspectable.</p>
 
     <h2>Interests</h2>
     <ul>
@@ -43,8 +36,15 @@ permalink: /about/
     </ul>
 
     <h2>Contact</h2>
-    <p>Email <a href="mailto:Lutz.sven@outlook.de">Lutz.sven@outlook.de</a>, or find me on <a href="https://github.com/Sven-Lutz">GitHub</a> and <a href="https://www.linkedin.com/in/lutzsven/">LinkedIn</a>. I am open to research collaborations, working-student roles and thesis projects in applied AI and research engineering.</p>
+    <p>Email <a href="mailto:Lutz.sven@outlook.de">Lutz.sven@outlook.de</a>, or find me on <a href="https://github.com/Sven-Lutz">GitHub</a> and <a href="https://www.linkedin.com/in/lutzsven/">LinkedIn</a>. Questions about the work here, or about anything I have written, are always welcome.</p>
   </div>
+</section>
+
+<section class="section" aria-labelledby="experience-heading">
+  <div class="section-head">
+    <h2 id="experience-heading">Experience</h2>
+  </div>
+  {% include experience.html %}
 </section>
 
 </div>
