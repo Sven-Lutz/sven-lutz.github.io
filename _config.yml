@@ -21,6 +21,10 @@ collections:
   projects:
     output: true
     permalink: /projects/:name/
+  # Short research notes. They render on /log/ as a stream; no separate page
+  # per entry, because a two-paragraph note does not need a URL of its own.
+  notes:
+    output: false
 
 defaults:
   # Social preview card for every page; individual pages can override `image`.
@@ -38,6 +42,11 @@ defaults:
       type: projects
     values:
       layout: project
+
+feed:
+  collections:
+    notes:
+      path: /feed/notes.xml
 
 plugins:
   - jekyll-seo-tag

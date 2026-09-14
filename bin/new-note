@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Add a short note to the research log.
+#
+#   bin/new-note "Leiden beats Louvain here"
+#   bin/new-note "Crawler throughput" --tags "GraphRAG,Crawling"
+#
+# Notes live in _notes/ and appear on /log/ immediately — they have no separate
+# page, so there is no draft step. Write, commit, done.
+
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+title=""
+tags=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --tags) tags="$2"; shift 2 ;;
+    -h|--help) sed -n '2,9p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -*) echo "Unknown option: $1" >&2; exit 1 ;;
+    *) if [[ -z "$title" ]]; then title="$1"; else title="$title $1"; fi; shift ;;
+  esac
+done
+
+[[ -n "$title" ]] || { echo 'Usage: bin/new-note "Note title" [--tags "A,B"]' >&2; exit 1; }
+
+slug=$(printf '%s' "$title" \
+  | tr '[:upper:]' '[:lower:]' \
+  | sed -e 's/ä/ae/g; s/ö/oe/g; s/ü/ue/g; s/ß/ss/g' \
+  | sed -e 's/[^a-z0-9]\+/-/g' -e 's/^-//' -e 's/-$//')
+
+today=$(date +%F)
+target="_notes/${today}-${slug}.md"
+[[ -e "$target" ]] && { echo "Refusing to overwrite $target" >&2; exit 1; }
+
+tag_line=""
+if [[ -n "$tags" ]]; then
+  IFS=',' read -ra parts <<< "$tags"
+  tag_line="tags: ["
+  for i in "${!parts[@]}"; do
+    trimmed=$(printf '%s' "${parts[$i]}" | sed -e 's/^ *//' -e 's/ *$//')
+    tag_line+="$trimmed"
+    [[ $i -lt $((${#parts[@]} - 1)) ]] && tag_line+=", "
+  done
+  tag_line+="]"
+fi
+
+mkdir -p _notes
+cat > "$target" <<EOF
+---
+title: "${title}"
+date: ${today}
+${tag_line}
+---
+
+Two or three sentences. What happened, what it means, what is next.
+EOF
+
+echo "Created $target"
+echo "Preview:  bundle exec jekyll serve"

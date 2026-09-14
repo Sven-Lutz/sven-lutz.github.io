@@ -10,6 +10,7 @@ tags:
   - Research software
   - Entrepreneurship
 reading_time: 3
+image: /assets/images/og/building-at-the-intersections.png
 redirect_from:
   - /notes/building-at-the-intersections/
 ---

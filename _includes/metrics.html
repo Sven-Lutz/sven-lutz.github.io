@@ -1,0 +1,16 @@
+{%- comment -%}
+A row of results. Values are stated, not decorated.
+
+  {% include metrics.html items="RMSE : 9.8 : best model | Baseline : 12.4 : naive | Municipalities : 2,056 : in scope" %}
+{%- endcomment -%}
+{%- assign items = include.items | split: "|" -%}
+<dl class="metrics">
+  {%- for item in items -%}
+    {%- assign parts = item | split: ":" -%}
+    <div class="metric">
+      <dt>{{ parts[0] | strip }}</dt>
+      <dd class="metric__value">{{ parts[1] | strip }}</dd>
+      {%- if parts[2] %}<dd class="metric__note">{{ parts[2] | strip }}</dd>{% endif -%}
+    </div>
+  {%- endfor -%}
+</dl>

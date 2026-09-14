@@ -26,6 +26,8 @@ layout: default
       </div>
       {% if page.external_url %}<div><dt>Link</dt><dd><a href="{{ page.external_url }}">{{ page.external_url | remove: "https://" }}</a></dd></div>{% endif %}
     </dl>
+
+    {% if page.metrics %}{% include metrics.html items=page.metrics %}{% endif %}
   </header>
 
   <div class="article-layout">
