@@ -3,38 +3,67 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#fdfdfb" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#16181a" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#101317" media="(prefers-color-scheme: dark)">
     {% seo %}
     <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+    <link rel="preload" href="{{ '/assets/fonts/inter-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+    {% if page.layout == 'post' or page.layout == 'project' %}
+      <link rel="preload" href="{{ '/assets/fonts/source-serif-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+    {% endif %}
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-    <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }} — writing" href="{{ '/feed.xml' | relative_url }}">
     {% if page.math %}
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/katex.min.css" integrity="sha384-JctiRyLzXCrSoOOzFlSoWLdyzQl7OrrRnhyeBmzB6ZWtcjccUyc8lCQJqIbs3uQX" crossorigin="anonymous">
-      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/katex.min.js" integrity="sha384-+7Keh381hSkXmXqnjC0JBM/kzsN6TFj+wMKychSLjTvJ8/0ElMde2uKl8i6p6Buj" crossorigin="anonymous"></script>
-      <script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.7/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true}], throwOnError: false});"></script>
+      <link rel="stylesheet" href="{{ '/assets/vendor/katex/katex.min.css' | relative_url }}">
+      <script defer src="{{ '/assets/vendor/katex/katex.min.js' | relative_url }}"></script>
+      <script defer src="{{ '/assets/vendor/katex/contrib/auto-render.min.js' | relative_url }}" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '\\[', right: '\\]', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}], throwOnError: false});"></script>
     {% endif %}
   </head>
-  <body>
+  <body{% if page.toc %} class="has-sidebar"{% endif %}>
     <a class="skip-link" href="#content">Skip to content</a>
+
     <header class="site-header">
-      <a class="wordmark" href="{{ '/' | relative_url }}">Sven Lutz</a>
-      <nav class="primary-nav" aria-label="Primary navigation">
-        <a{% if page.url contains '/blog' %} aria-current="page"{% endif %} href="{{ '/blog/' | relative_url }}">Writing</a>
-        <a{% if page.url contains '/projects' %} aria-current="page"{% endif %} href="{{ '/projects/' | relative_url }}">Projects</a>
-        <a{% if page.url == '/about/' %} aria-current="page"{% endif %} href="{{ '/about/' | relative_url }}">About</a>
-      </nav>
+      <div class="shell">
+        <a class="wordmark" href="{{ '/' | relative_url }}">Sven Lutz</a>
+        <nav class="primary-nav" aria-label="Primary">
+          <a{% if page.url contains '/blog' %} aria-current="page"{% endif %} href="{{ '/blog/' | relative_url }}">Writing</a>
+          <a{% if page.url contains '/projects' %} aria-current="page"{% endif %} href="{{ '/projects/' | relative_url }}">Projects</a>
+          <a{% if page.url == '/about/' %} aria-current="page"{% endif %} href="{{ '/about/' | relative_url }}">About</a>
+        </nav>
+      </div>
     </header>
+
     <main id="content">{{ content }}</main>
+
     <footer class="site-footer">
-      <p class="footer-links">
-        <a href="mailto:Lutz.sven@outlook.de">Email</a>
-        <a href="https://github.com/Sven-Lutz">GitHub</a>
-        <a href="https://www.linkedin.com/in/lutzsven/">LinkedIn</a>
-        <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
-      </p>
-      <p>© {{ 'now' | date: '%Y' }} Sven Lutz · Built with Jekyll</p>
+      <div class="shell">
+        <div class="footer-brand">
+          <strong>Sven Lutz</strong>
+          <p>Applied AI and research software. Writing about methods, systems and the decisions behind them.</p>
+        </div>
+        <div class="footer-col">
+          <h2>Site</h2>
+          <ul>
+            <li><a href="{{ '/blog/' | relative_url }}">Writing</a></li>
+            <li><a href="{{ '/projects/' | relative_url }}">Projects</a></li>
+            <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+            <li><a href="{{ '/feed.xml' | relative_url }}">RSS feed</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2>Elsewhere</h2>
+          <ul>
+            <li><a href="https://github.com/Sven-Lutz" rel="me">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/lutzsven/" rel="me">LinkedIn</a></li>
+            <li><a href="mailto:Lutz.sven@outlook.de">Email</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-fine">© {{ 'now' | date: '%Y' }} Sven Lutz. Built with Jekyll; text and code are my own unless stated otherwise.</p>
     </footer>
-    {% if page.toc %}<script defer src="{{ '/assets/js/toc.js' | relative_url }}"></script>{% endif %}
+
+    {% if page.layout == 'post' or page.layout == 'project' %}
+      <script defer src="{{ '/assets/js/article.js' | relative_url }}"></script>
+    {% endif %}
   </body>
 </html>

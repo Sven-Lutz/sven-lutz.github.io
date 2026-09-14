@@ -1,46 +1,50 @@
 ---
 layout: default
 title: About
-description: Background, experience and current interests of Sven Lutz.
+description: Sven Lutz — M.Sc. student in Information Systems at KIT, working on applied AI and research software. Background, experience and current work.
 permalink: /about/
 ---
 
-<h1>About</h1>
+<div class="shell">
 
-<div class="prose">
-<img class="portrait" src="https://avatars.githubusercontent.com/u/160597035?v=4" alt="Portrait of Sven Lutz">
+<header class="page-head">
+  <p class="label">About</p>
+  <h1>Sven Lutz</h1>
+  <div class="about-intro">
+    <img class="portrait" src="{{ '/assets/images/portrait.jpg' | relative_url }}" alt="Portrait of Sven Lutz" width="377" height="377" loading="lazy">
+    <p class="lede">I work on applied AI and research software — the kind that has to run outside a notebook, on real data, with someone depending on the result.</p>
+  </div>
+</header>
 
-<p>I am Sven Lutz. I did a B.Sc. in Business Administration at the University of Bayreuth and am now doing an M.Sc. in Information Systems at the Karlsruhe Institute of Technology (KIT), with additional coursework in mathematics.</p>
+<section class="section">
+  <div class="prose">
+    <p>I am completing an M.Sc. in Information Systems at the Karlsruhe Institute of Technology (KIT), after a B.Sc. in Business Administration at the University of Bayreuth and additional coursework in mathematics. That sequence is deliberate: I wanted the quantitative foundation and the organisational context, not one without the other.</p>
+    <p>My work sits between research and engineering. A question gets formalised, implemented, measured, and then — most importantly — examined for the conditions under which the answer stops holding.</p>
 
-<p>I like questions that need both analysis and implementation: understanding a system, writing the software for it, and then checking whether it still holds up outside a notebook.</p>
+    <h2>Experience</h2>
+    <dl class="facts">
+      <div><dt>2026</dt><dd><strong>Porsche</strong> — Research &amp; development internship</dd></div>
+      <div><dt>2025–2026</dt><dd><strong>KIT, in collaboration with ASML</strong> — Research software for experimental systems</dd></div>
+      <div><dt>2022–2025</dt><dd><strong>Fraunhofer FIT / FIM</strong> — Student research assistant</dd></div>
+      <div><dt>Earlier</dt><dd><strong>soffico</strong> — Product and innovation management</dd></div>
+    </dl>
+    <p>Across these roles I have worked with retrieval and knowledge graphs, time-series forecasting, computer vision, experimental control software, industrial data and process automation.</p>
 
-<h2>Experience</h2>
+    <h2>Current work</h2>
+    <p>My main project is a GraphRAG pipeline for municipal climate-policy information: crawling public material from Bavarian municipalities, extracting entities and relations into a knowledge graph, and making both the answers and the evidence behind them inspectable.</p>
+    <p>Alongside it, I develop control and telemetry software for laboratory filtration systems, and I experiment with building and distributing small software products.</p>
 
-<ul>
-  <li><strong>Porsche</strong> (2026) — research and development internship.</li>
-  <li><strong>KIT, with ASML</strong> (2025–26) — research software for experimental systems.</li>
-  <li><strong>Fraunhofer FIT / FIM</strong> (2022–25) — student research assistant.</li>
-  <li><strong>soffico</strong> (earlier) — product and innovation management.</li>
-</ul>
+    <h2>Interests</h2>
+    <ul>
+      <li><strong>AI and knowledge systems</strong> — retrieval, graphs, evaluation, and tools for navigating information that resists clean structure.</li>
+      <li><strong>Economics and sustainability</strong> — how technical systems meet incentives, resources and public decisions.</li>
+      <li><strong>Mathematics</strong> — formal structure, quantitative reasoning and the honest handling of uncertainty.</li>
+      <li><strong>Entrepreneurship</strong> — designing and testing software that could stand on its own.</li>
+    </ul>
 
-<p>Along the way I have worked with applied AI, experimental control software, time-series forecasting, computer vision, industrial data and process automation.</p>
+    <h2>Contact</h2>
+    <p>Email <a href="mailto:Lutz.sven@outlook.de">Lutz.sven@outlook.de</a>, or find me on <a href="https://github.com/Sven-Lutz">GitHub</a> and <a href="https://www.linkedin.com/in/lutzsven/">LinkedIn</a>. I am open to research collaborations, working-student roles and thesis projects in applied AI and research engineering.</p>
+  </div>
+</section>
 
-<h2>What I am working on</h2>
-
-<p>My current focus is AI systems that organise and query complex information. The main example is a GraphRAG pipeline that collects municipal climate-policy material and makes the relationships and the underlying evidence easier to examine.</p>
-
-<p>Next to that I experiment with building and distributing small software products — including the unglamorous questions about who actually needs the thing.</p>
-
-<h2>Interests</h2>
-
-<ul>
-  <li><strong>AI and knowledge systems</strong> — language models, retrieval, graphs, and tools for navigating messy information.</li>
-  <li><strong>Economics and sustainability</strong> — how technical systems interact with incentives, resources and public decisions.</li>
-  <li><strong>Mathematics</strong> — formal structure, quantitative reasoning, and handling uncertainty properly.</li>
-  <li><strong>Entrepreneurship</strong> — designing and testing software that could become a product.</li>
-</ul>
-
-<h2>Contact</h2>
-
-<p>Write to me at <a href="mailto:Lutz.sven@outlook.de">Lutz.sven@outlook.de</a>. I am also on <a href="https://github.com/Sven-Lutz">GitHub</a> and <a href="https://www.linkedin.com/in/lutzsven/">LinkedIn</a>.</p>
 </div>

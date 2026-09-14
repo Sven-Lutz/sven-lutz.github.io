@@ -1,109 +1,185 @@
 # sven-lutz.github.io
 
-Personal site, writing archive and project notes for Sven Lutz. Built with Jekyll, written in Markdown and deployed through GitHub Pages.
+Personal site of Sven Lutz: writing on applied AI and research software, plus project write-ups.
+Built with Jekyll, written in Markdown, deployed to GitHub Pages.
 
-## Why Jekyll
+- **Live:** https://sven-lutz.github.io
+- **Deploy:** every push to `main` runs `.github/workflows/jekyll-gh-pages.yml`
 
-The site already runs on GitHub Pages, and Jekyll covers the requirements without adding a JavaScript build stack:
+---
 
-- Markdown posts, drafts and stable permalinks
-- A structured project collection
-- RSS, sitemap, redirects and SEO metadata
-- Syntax highlighting and optional KaTeX
-- No client-side framework for core navigation or content
-
-Astro would become useful if the site later needs component-heavy interactive work, a large content graph or client-side search. At the current scale, migrating would add maintenance cost without a corresponding reader benefit.
-
-## Information architecture
-
-```text
-_projects/             structured project case studies
-_posts/                published technical articles
-_drafts/               unpublished work in progress
-_layouts/project.html  project detail template
-_layouts/post.html     long-form article template
-projects.md             project index at /projects/
-blog.md                 chronological archive at /blog/
-blog-categories.md      generated category view
-blog-tags.md            generated tag view
-```
-
-Projects and posts connect through the post’s `project` field. Only categories and tags that are actually used are rendered.
-
-## Local preview
+## Writing an article
 
 ```bash
-bundle install
-bundle exec jekyll serve
+bin/new-post "GraphRAG explained"
+bin/new-post "Evaluating retrieval" --category "Research notes" --tags "Evaluation, Retrieval"
+bin/new-post "Short note" --publish      # straight into _posts/ instead of _drafts/
 ```
 
-Open `http://localhost:4000`. To include unpublished drafts:
+The script creates a draft in `_drafts/` with complete front matter and the building blocks
+below already stubbed in. Preview it:
 
 ```bash
-bundle exec jekyll serve --drafts
+bundle exec jekyll serve --drafts --livereload
 ```
 
-## Writing workflow
+Publish by moving the file into `_posts/` with a date prefix — the slug becomes the URL,
+so keep it stable once published:
 
-Start a draft in `_drafts/descriptive-slug.md`. A complete article front matter block looks like this:
-
-```yaml
----
-title: "A precise, descriptive title"
-description: "One sentence used in archives and search previews."
-date: 2026-09-14
-updated: 2026-09-14
-category: Research Notes
-tags:
-  - GraphRAG
-  - Evaluation
-reading_time: 8
-project: climate-policy-knowledge-system
-toc: true
-math: true
-series: "Evaluating retrieval systems"
-series_order: 1
-canonical_url: https://example.com/original-article/
-# published: false
----
+```bash
+git mv _drafts/graphrag-explained.md _posts/2026-09-14-graphrag-explained.md
 ```
 
-Only `title`, `description`, `category` and `tags` should normally be considered essential while drafting. Use the optional fields as follows:
+### Front matter
 
-- `updated` records a material revision.
-- `project` must match the `slug` of a file in `_projects/` and creates links in both directions.
-- `toc: true` generates a table of contents from level-two and level-three headings.
-- `math: true` loads KaTeX only for that article. Inline math uses `$...$`; display math uses `$$...$$`.
-- `series` and `series_order` create article-to-article series navigation.
-- `canonical_url` overrides the canonical URL when the piece was originally published elsewhere.
-- `published: false` keeps a dated post out of production; prefer `_drafts/` for ordinary work in progress.
-- `redirect_from` preserves an older URL after a rename.
+| Field | Required | Purpose |
+|---|---|---|
+| `title` | yes | Article title; also the `<title>` and social-card title |
+| `description` | yes | One sentence; used in the archive, search results and link previews |
+| `date` | yes | Publication date (the filename date wins for the URL) |
+| `category` | recommended | One broad area, e.g. `Explainers`, `Research notes` |
+| `tags` | recommended | Specific methods and technologies |
+| `toc` | optional | `true` adds the sidebar table of contents with scroll tracking |
+| `math` | optional | `true` loads KaTeX **on that page only** |
+| `project` | optional | `slug` of a file in `_projects/`; cross-links both pages |
+| `series` / `series_order` | optional | Adds series navigation between articles |
+| `updated` | optional | Shown next to the date after a material revision |
+| `reading_time` | optional | Overrides the automatic estimate (210 words per minute) |
+| `redirect_from` | optional | Keeps an old URL working after a rename |
+| `published: false` | optional | Keeps a dated post out of the build |
 
-To publish, move the file to `_posts/YYYY-MM-DD-descriptive-slug.md`, keep the filename slug stable and run a production build before pushing.
+### Building blocks
 
-## Long-form content
+Everything below is plain Markdown plus a few HTML wrappers. `markdown="1"` lets kramdown
+keep formatting the content inside the wrapper.
 
-Standard fenced code blocks receive Rouge syntax highlighting. Markdown tables scroll horizontally on narrow screens. Figures can use semantic HTML:
+**Code** — fenced blocks get a language label and a copy button automatically:
 
-```html
+````markdown
+```python
+def segment(document: str) -> list[str]:
+    ...
+```
+````
+
+**Callouts** — `callout--note`, `callout--tip`, `callout--warning`, `callout--example`:
+
+```markdown
+<div class="callout callout--warning" markdown="1">
+
+This step dominates the indexing cost.
+
+</div>
+```
+
+Add `data-label="Prerequisite"` to relabel a box.
+
+**Panels** for prerequisites, key takeaways or summaries:
+
+```markdown
+<div class="panel" markdown="1">
+
+#### Key takeaways
+
+- The two or three things worth remembering
+
+</div>
+```
+
+**Figures**, optionally wider than the text column on large screens:
+
+```markdown
 <figure class="wide">
-  <img src="/assets/images/example.svg" alt="Describe the information in the figure">
-  <figcaption>Figure 1. Explain what the reader should notice.</figcaption>
+  <img src="/assets/images/pipeline.svg" alt="Describe what the figure shows">
+  <figcaption>Figure 1. What the reader should notice.</figcaption>
 </figure>
 ```
 
-References can be a final `## References` section with ordinary Markdown links or footnotes. Article content stays portable: the special features are progressive enhancements, not requirements for reading the Markdown source.
+**Maths** with `math: true` in the front matter: `$inline$` and `$$display$$`.
+KaTeX is served from `assets/vendor/katex/`, not from a CDN.
+
+**Tables** are plain Markdown; they become horizontally scrollable on narrow screens.
+Footnotes use kramdown syntax (`[^1]`).
+
+---
 
 ## Adding a project
 
-Create `_projects/project-slug.md` with the fields used by the existing projects: `title`, `short_title`, `slug`, `description`, `type`, `status`, `period`, `role`, `stack`, `featured` and `order`. Set `repository_public: false` for private work so the site shows an honest availability label instead of a dead link.
+Create `_projects/project-slug.md`:
 
-## Deployment and future growth
+```yaml
+---
+title: "Full project title"
+short_title: "Short title for lists"
+slug: project-slug           # referenced by a post's `project:` field
+description: "One sentence."
+type: Applied AI             # Research software, Bachelor's thesis, …
+status: Work in progress     # Active development, Completed, …
+period: 2026—present
+role: Independent research and development
+stack: [GraphRAG, Neo4j, Python]
+repository: https://github.com/Sven-Lutz/example
+repository_public: false     # shows "Private repository" instead of a dead link
+featured: true               # appears on the start page
+order: 1
+---
+```
 
-Pushes to `main` deploy through `.github/workflows/jekyll-gh-pages.yml`. `/feed.xml` is generated automatically.
+---
 
-The current archive intentionally avoids premature complexity. When the article count makes browsing difficult, the next additions should be build-time pagination followed by a small static search index. Both can be added without changing existing article URLs or Markdown files.
+## Structure
 
-## Privacy
+```text
+_posts/            published articles
+_drafts/           work in progress (built only with --drafts)
+_projects/         project pages
+_layouts/          default, post, project
+_includes/         post-entry, project-card, series-nav
+assets/css/        main.css (design system), fonts.css (generated @font-face rules)
+assets/fonts/      self-hosted Inter, Source Serif 4, JetBrains Mono (OFL)
+assets/js/         article.js — table of contents, anchors, code copy buttons
+assets/vendor/     self-hosted KaTeX
+assets/images/     portrait, social preview card
+bin/new-post       draft scaffolding
+```
 
-Do not add private CV files, addresses, phone numbers, matriculation details or unreviewed exports to this repository. Any future public CV must be a separately prepared, sanitized document.
+### Design system
+
+`assets/css/main.css` starts with the tokens — colour, type scale, spacing, measure.
+Change a value there rather than overriding it further down. Two rules matter for layout:
+
+- Header, content and footer all resolve to the same shell width, so every left edge lines up.
+- Pages with `toc: true` get `body.has-sidebar`, which widens that shared shell.
+
+Light and dark palettes are both defined in the tokens; there is no theme switch, the
+site follows the operating system. Printing an article is supported (`@media print`).
+
+### Third-party assets
+
+Fonts and KaTeX are served from this origin. No request leaves the visitor's browser to a
+third party, which keeps the site simple and avoids the legal questions around hotlinked
+webfonts in Germany. Both are under open licences (SIL OFL, MIT); the KaTeX package was
+installed from npm and verified against the registry's published checksum.
+
+---
+
+## Local development
+
+```bash
+bundle install
+bundle exec jekyll serve --drafts --livereload
+```
+
+Open `http://localhost:4000`.
+
+---
+
+## Notes
+
+- **Privacy:** no private CV files, addresses, phone numbers or matriculation details in this
+  repository. A public CV must be a separately prepared, sanitised document.
+- **Impressum:** a purely personal, non-commercial site is generally exempt under §5 DDG,
+  but that depends on how the site is used — worth checking before adding job-seeking or
+  commercial content.
+- **Scaling up:** when the archive gets long enough to be awkward to browse, add build-time
+  pagination first, then a small static search index. Neither changes existing URLs.

@@ -1,9 +1,11 @@
 title: Sven Lutz
-description: Writing and notes on applied AI and research software by Sven Lutz.
+description: Applied AI and research software — knowledge graphs, retrieval systems and research engineering, written up by Sven Lutz.
 url: "https://sven-lutz.github.io"
 baseurl: ""
 lang: en
 timezone: Europe/Berlin
+
+image: /assets/images/og-card.png
 
 author:
   name: Sven Lutz
@@ -21,6 +23,11 @@ collections:
     permalink: /projects/:name/
 
 defaults:
+  # Social preview card for every page; individual pages can override `image`.
+  - scope:
+      path: ""
+    values:
+      image: /assets/images/og-card.png
   - scope:
       path: ""
       type: posts

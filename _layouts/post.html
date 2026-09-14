@@ -1,43 +1,77 @@
 ---
 layout: default
 ---
-<article>
-  <h1>{{ page.title }}</h1>
-  <p class="meta">
-    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %B %Y" }}</time>
-    {%- assign published_day = page.date | date: "%Y-%m-%d" -%}
-    {%- assign updated_day = page.updated | date: "%Y-%m-%d" -%}
-    {% if page.updated and updated_day != published_day %} · updated {{ page.updated | date: "%-d %B %Y" }}{% endif %}
-    {% if page.category %} · <a href="{{ '/blog/categories/' | relative_url }}#{{ page.category | slugify }}">{{ page.category }}</a>{% endif %}
-    {% if page.reading_time %} · {{ page.reading_time }} min read{% endif %}
-    {% if page.project %}
-      {% assign related_project = site.projects | where: "slug", page.project | first %}
-      {% if related_project %} · <a href="{{ related_project.url | relative_url }}">{{ related_project.short_title | default: related_project.title }}</a>{% endif %}
+{%- assign words = content | number_of_words -%}
+{%- assign minutes = words | divided_by: 210 | plus: 1 -%}
+{%- assign reading_time = page.reading_time | default: minutes -%}
+{%- assign published_day = page.date | date: "%Y-%m-%d" -%}
+{%- assign updated_day = page.updated | date: "%Y-%m-%d" -%}
+
+<article class="shell">
+
+  <header class="article-head">
+    <p class="kicker">
+      {%- if page.category %}<a href="{{ '/blog/categories/' | relative_url }}#{{ page.category | slugify }}">{{ page.category }}</a>{% else %}<span>Article</span>{% endif -%}
+      {%- if page.series %} <span aria-hidden="true">·</span> <span>{{ page.series }}{% if page.series_order %}, part {{ page.series_order }}{% endif %}</span>{% endif -%}
+    </p>
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}<p class="lede">{{ page.description }}</p>{% endif %}
+    <p class="byline">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %B %Y" }}</time>
+      {% if page.updated and updated_day != published_day %}<span>Updated {{ page.updated | date: "%-d %B %Y" }}</span>{% endif %}
+      <span>{{ reading_time }} min read</span>
+      {%- if page.project %}
+        {%- assign related_project = site.projects | where: "slug", page.project | first -%}
+        {%- if related_project %}<span>Project: <a href="{{ related_project.url | relative_url }}">{{ related_project.short_title | default: related_project.title }}</a></span>{% endif -%}
+      {%- endif %}
+    </p>
+  </header>
+
+  <div class="article-layout{% if page.toc %} with-toc{% endif %}">
+    <div class="prose article-body">
+      {% if page.toc %}
+        <details class="toc-mobile">
+          <summary>Contents</summary>
+          <nav class="toc" aria-label="Table of contents (mobile)">
+            <h2>On this page</h2>
+            <ol data-toc></ol>
+          </nav>
+        </details>
+      {% endif %}
+      {{ content }}
+    </div>
+
+    {% if page.toc %}
+      <aside class="toc-column">
+        <nav class="toc" aria-labelledby="toc-heading">
+          <h2 id="toc-heading">On this page</h2>
+          <ol data-toc></ol>
+        </nav>
+      </aside>
     {% endif %}
-  </p>
-  {% if page.description %}<p class="lede">{{ page.description }}</p>{% endif %}
+  </div>
 
-  {% if page.abstract %}
-    <aside class="abstract"><strong>Abstract</strong><p>{{ page.abstract }}</p></aside>
-  {% endif %}
+  <div class="article-end">
+    {% if page.tags.size > 0 %}
+      <div class="tag-row">
+        <span class="label">Tags</span>
+        <ul class="entry-tags">
+          {% for tag in page.tags %}<li><a href="{{ '/blog/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a></li>{% endfor %}
+        </ul>
+      </div>
+    {% endif %}
 
-  {% if page.toc %}
-    <nav class="toc" aria-labelledby="toc-title">
-      <strong id="toc-title">Contents</strong>
-      <ol id="generated-toc"></ol>
-    </nav>
-  {% endif %}
+    {% include series-nav.html %}
 
-  <div class="prose article-body">{{ content }}</div>
+    {%- assign prev_post = page.previous -%}
+    {%- assign next_post = page.next -%}
+    {% if prev_post or next_post %}
+      <nav class="next-prev" aria-label="More writing">
+        {% if prev_post %}<a href="{{ prev_post.url | relative_url }}"><span>Previous</span><strong>{{ prev_post.title }}</strong></a>{% endif %}
+        {% if next_post %}<a href="{{ next_post.url | relative_url }}"><span>Next</span><strong>{{ next_post.title }}</strong></a>{% endif %}
+      </nav>
+    {% endif %}
 
-  {% if page.tags.size > 0 %}
-    <ul class="tag-list">
-      <li class="tag-label">Tagged</li>
-      {% for tag in page.tags %}<li><a href="{{ '/blog/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a></li>{% endfor %}
-    </ul>
-  {% endif %}
-
-  {% include series-nav.html %}
-
-  <a class="back-link" href="{{ '/blog/' | relative_url }}">← All writing</a>
+    <a class="back-link" href="{{ '/blog/' | relative_url }}">← All writing</a>
+  </div>
 </article>

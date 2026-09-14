@@ -1,41 +1,58 @@
 ---
 layout: default
 title: Sven Lutz
-description: Notes and writing on applied AI and research software by Sven Lutz, Information Systems student at KIT.
+description: Applied AI and research software. Writing on GraphRAG, machine learning and research engineering by Sven Lutz, M.Sc. student in Information Systems at KIT.
 ---
 
-<section>
+<div class="shell">
+
+<section class="intro">
+  <p class="label">Applied AI · Research software</p>
   <h1>Sven Lutz</h1>
-  <p>I am a master's student in Information Systems at KIT. I work on applied AI and research software — mostly where those meet economics, sustainability and public decision-making.</p>
-  <p>At the moment I am building a GraphRAG-based knowledge system for municipal climate-policy information, and I write down what I learn along the way.</p>
-  <p>This site is where I keep that writing: notes on methods, project write-ups, and the occasional post about what did not work. You can reach me by <a href="mailto:Lutz.sven@outlook.de">email</a>.</p>
+  <div class="intro-copy">
+    <p>I build AI systems for questions that do not fit neatly into a benchmark — knowledge graphs over municipal climate policy, forecasting models for charging infrastructure, control software for laboratory experiments.</p>
+    <p>I am completing an M.Sc. in Information Systems at KIT, with a background in business administration and mathematics. This site is where I document how those systems are built and where they break.</p>
+  </div>
+  <p class="intro-meta">
+    <span><strong>KIT</strong> M.Sc. Information Systems</span>
+    <span><strong>Currently</strong> GraphRAG for climate policy</span>
+    <span><strong>Previously</strong> Porsche · Fraunhofer FIT/FIM · ASML</span>
+  </p>
 </section>
 
-<section>
-  <h2>Recent writing</h2>
-  <ul class="entry-list">
-    {% for post in site.posts limit:5 %}
-      <li>
-        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %b %Y" }}</time>
-        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-        {% if post.description %}<p>{{ post.description }}</p>{% endif %}
-      </li>
+<section class="section">
+  <div class="section-head">
+    <h2>Writing</h2>
+    <a href="{{ '/blog/' | relative_url }}">All writing →</a>
+  </div>
+  <ul class="entries">
+    {% for post in site.posts limit:4 %}
+      {% include post-entry.html post=post %}
     {% endfor %}
   </ul>
-  <p class="inline-links"><a href="{{ '/blog/' | relative_url }}">All writing</a> · <a href="{{ '/feed.xml' | relative_url }}">RSS</a></p>
 </section>
 
-<section>
-  <h2>Projects</h2>
-  <ul class="entry-list">
+<section class="section">
+  <div class="section-head">
+    <h2>Projects</h2>
+    <a href="{{ '/projects/' | relative_url }}">All projects →</a>
+  </div>
+  <div class="project-grid">
     {% assign featured_projects = site.projects | where: "featured", true | sort: "order" %}
-    {% for project in featured_projects limit:4 %}
-      <li>
-        <span class="entry-note">{{ project.type }}{% if project.status %} · {{ project.status }}{% endif %}</span>
-        <h3><a href="{{ project.url | relative_url }}">{{ project.short_title | default: project.title }}</a></h3>
-        {% if project.description %}<p>{{ project.description }}</p>{% endif %}
-      </li>
+    {% for project in featured_projects limit:3 %}
+      {% include project-card.html project=project %}
     {% endfor %}
-  </ul>
-  <p class="inline-links"><a href="{{ '/projects/' | relative_url }}">All projects</a></p>
+  </div>
 </section>
+
+<section class="section">
+  <div class="section-head"><h2>Contact</h2></div>
+  <p class="lede">Open to research collaborations, working-student and thesis positions in applied AI and research engineering.</p>
+  <p class="inline-links">
+    <a href="mailto:Lutz.sven@outlook.de">Lutz.sven@outlook.de</a>
+    <a href="https://github.com/Sven-Lutz">GitHub</a>
+    <a href="https://www.linkedin.com/in/lutzsven/">LinkedIn</a>
+  </p>
+</section>
+
+</div>

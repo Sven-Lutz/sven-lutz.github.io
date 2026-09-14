@@ -1,0 +1,11 @@
+<article class="project-card">
+  <p class="entry-meta">
+    <span>{{ include.project.type }}</span>
+    {%- if include.project.status %}<span class="dot" aria-hidden="true"></span><span class="status"{% if include.project.status contains 'Active' %} data-state="active"{% elsif include.project.status contains 'progress' %} data-state="progress"{% endif %}>{{ include.project.status }}</span>{% endif -%}
+  </p>
+  <h3><a href="{{ include.project.url | relative_url }}">{{ include.project.short_title | default: include.project.title }}</a></h3>
+  {% if include.project.description %}<p>{{ include.project.description }}</p>{% endif %}
+  {% if include.project.stack %}
+    <ul class="stack">{% for tool in include.project.stack %}<li>{{ tool }}</li>{% endfor %}</ul>
+  {% endif %}
+</article>

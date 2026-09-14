@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+# Create a new draft with complete front matter.
+#
+#   bin/new-post "GraphRAG explained"
+#   bin/new-post "Evaluating retrieval" --category Explainers --tags "GraphRAG,Evaluation"
+#   bin/new-post "Quick note" --publish        # straight into _posts/ with today's date
+#
+# Drafts live in _drafts/ and are not built unless you pass --drafts to Jekyll.
+
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+title=""
+category="Explainers"
+tags=""
+publish=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --category) category="$2"; shift 2 ;;
+    --tags)     tags="$2"; shift 2 ;;
+    --publish)  publish=true; shift ;;
+    -h|--help)  sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -*)         echo "Unknown option: $1" >&2; exit 1 ;;
+    *)          if [[ -z "$title" ]]; then title="$1"; else title="$title $1"; fi; shift ;;
+  esac
+done
+
+if [[ -z "$title" ]]; then
+  echo "Usage: bin/new-post \"Article title\" [--category C] [--tags \"A,B\"] [--publish]" >&2
+  exit 1
+fi
+
+# Slug: lowercase, umlauts transliterated, non-alphanumerics collapsed to hyphens.
+slug=$(printf '%s' "$title" \
+  | tr '[:upper:]' '[:lower:]' \
+  | sed -e 's/ä/ae/g; s/ö/oe/g; s/ü/ue/g; s/ß/ss/g' \
+  | sed -e 's/[^a-z0-9]\+/-/g' -e 's/^-//' -e 's/-$//')
+
+today=$(date +%F)
+
+if $publish; then
+  target="_posts/${today}-${slug}.md"
+else
+  target="_drafts/${slug}.md"
+fi
+
+if [[ -e "$target" ]]; then
+  echo "Refusing to overwrite existing file: $target" >&2
+  exit 1
+fi
+
+# Build the tag list as YAML.
+tag_block=""
+if [[ -n "$tags" ]]; then
+  IFS=',' read -ra parts <<< "$tags"
+  for tag in "${parts[@]}"; do
+    trimmed=$(printf '%s' "$tag" | sed -e 's/^ *//' -e 's/ *$//')
+    [[ -n "$trimmed" ]] && tag_block+="  - ${trimmed}"$'\n'
+  done
+else
+  tag_block="  - TODO"$'\n'
+fi
+
+mkdir -p "$(dirname "$target")"
+cat > "$target" <<EOF
+---
+title: "${title}"
+description: "One sentence. Shown in the archive, in search results and in link previews."
+date: ${today}
+category: ${category}
+tags:
+${tag_block}toc: true
+math: false
+# project: climate-policy-knowledge-system   # links this article to a project page
+# series: "Series name"
+# series_order: 1
+# updated: ${today}
+---
+
+Opening paragraph: the question this article answers, and for whom.
+
+<div class="panel" markdown="1">
+
+#### Prerequisites
+
+- What the reader should already know
+
+</div>
+
+## First section
+
+Body text.
+
+\`\`\`python
+def example() -> None:
+    """Code blocks get a language label and a copy button."""
+\`\`\`
+
+<div class="callout callout--note" markdown="1">
+
+A note, tip, caution or example box. Types: \`callout--note\`, \`callout--tip\`,
+\`callout--warning\`, \`callout--example\`. Add \`data-label="Custom"\` to relabel it.
+
+</div>
+
+## Second section
+
+Body text.
+
+<div class="panel" markdown="1">
+
+#### Key takeaways
+
+- The two or three things worth remembering
+
+</div>
+
+## References
+
+1. Author, A. (Year). *Title*. [Link](https://example.org)
+EOF
+
+echo "Created $target"
+echo
+echo "Preview with drafts:  bundle exec jekyll serve --drafts --livereload"
+if ! $publish; then
+  echo "Publish by moving it:  git mv $target _posts/\$(date +%F)-${slug}.md"
+fi
